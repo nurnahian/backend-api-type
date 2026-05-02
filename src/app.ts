@@ -5,11 +5,14 @@ import logger from "./config/logger";
 import loggingMiddleware from "./middlewares/loggingMiddleware";
 import errorMiddleware from "./middlewares/errorMiddleware";
 import router from "./routers";
+import apiKeyMiddleware from "./middlewares/apiKeyMiddleware";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(apiKeyMiddleware);
 
 // Logging middleware
 app.use(loggingMiddleware);
