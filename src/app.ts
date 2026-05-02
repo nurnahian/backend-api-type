@@ -1,13 +1,28 @@
-import express = require("express");
+import express from "express";
+import cors from "cors";
+import logger from "./config/logger";
+
+import loggingMiddleware from "./middlewares/loggingMiddleware";
+import errorMiddleware from "./middlewares/errorMiddleware";
+import router from "./routers";
 
 const app = express();
 
+app.use(cors());
+app.use(express.json());
+
+// Logging middleware
+app.use(loggingMiddleware);
+
+// Routes
+app.use("/", router);
+
 app.get("/", (req, res) => {
+  logger.info("Root endpoint accessed");
   res.send("API Working!");
 });
 
-app.get("/user", (req, res) => {
-  res.send("API");
-});
+// Error handling middleware
+app.use(errorMiddleware);
 
 export default app;
